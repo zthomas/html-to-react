@@ -5,7 +5,7 @@ var React = require('react');
 
 var Parser = require('../index').Parser;
 var ProcessNodeDefinitions = require('../index').ProcessNodeDefinitions;
-var createReactComponents = require('../index').createReactComponents
+var createReactComponents = require('../index').createReactComponents(React)
 
 var renderToStaticMarkup = require('react-dom/server').renderToStaticMarkup
 
