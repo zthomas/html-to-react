@@ -7,15 +7,13 @@ var processNodeDefinitions = require('./lib/process-node-definitions');
 
 function createReactComponentsFactory(React) {
     return function createReactComponents(tree) {
+        if (tree instanceof Array)
+            return tree.map(child => createReactComponents(child))
+
         if (!tree || typeof tree === 'string')
+            return tree
 
-            if (tree instanceof Array) {
-                return tree.map(child => createReactComponents(child))
-            }
-
-        if (typeof tree === 'object') {
-            if (!tree.type)
-                throw 'react structure objects must have a type'
+        if (typeof tree === 'object' && tree.type) {
             var children = tree.children
 
             if (children && children.tagName) {
@@ -27,7 +25,7 @@ function createReactComponentsFactory(React) {
             return React.createElement(tree.type, tree.props, children)
         }
 
-        return tree
+        throw 'react structure objects must have a type', tree
     }
 }
 
